@@ -35,17 +35,17 @@ class DelayModel:
         )
 
         top_10_features = [
-            'OPERA_Latin American Wings',
-            'MES_7',
-            'MES_10',
-            'MES_12',
-            'MES_8',
-            'OPERA_JetSmart SPA',
-            'OPERA_Grupo LATAM',
-            'OPERA_Sky Airline',
-            'TIPOVUELO_I',
-            'MES_4'
-            ]
+            "OPERA_Latin American Wings", 
+            "MES_7",
+            "MES_10",
+            "OPERA_Grupo LATAM",
+            "MES_12",
+            "TIPOVUELO_I",
+            "MES_4",
+            "MES_11",
+            "OPERA_Sky Airline",
+            "OPERA_Copa Air"
+        ]
         
         features = features[top_10_features]
         
