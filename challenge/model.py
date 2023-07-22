@@ -6,6 +6,8 @@ from datetime import datetime
 from joblib import dump, load
 import os
 
+# The reasons of the chosen model are descripted in the Jupiter Notebook
+
 class DelayModel:
     TOP_10_FEATURES = [
             "OPERA_Latin American Wings", 
@@ -64,6 +66,7 @@ class DelayModel:
         return self._model.predict(features).tolist()
 
     # Adedd these 2 functions to save and load the fitted model
+    # Mostly for the API
 
     def save(self, filename: str):
         # Save just the model part of the instance, not the whole instance
