@@ -42,7 +42,7 @@ class DelayModel:
         features = features[self.TOP_10_FEATURES]
         
         if target_column:
-            target = data[target_column]
+            target = data[[target_column]]  # Double brackets to keep it as DataFrame
             return features, target
         else:
             return features
@@ -52,4 +52,4 @@ class DelayModel:
         return
 
     def predict(self, features: pd.DataFrame) -> List[int]:
-        return self._model.predict(features)
+        return self._model.predict(features).tolist()
