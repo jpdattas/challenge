@@ -72,12 +72,13 @@ class DelayModel:
     def load_or_fit(self, filename: str):
         # Check if the file exists
         if os.path.exists(filename):
-            # If file exists, load the model from the file and save it
+            # If file exists, load the model from the file
             self._model = load(filename)
-            self.save(filename)
             
         else:
             # If it doesn't exist, train it using the provided data and save it
+            # Then save it
             data = pd.read_csv('./data/data.csv')
             features, target = self.preprocess(data, target_column='delay')
             self.fit(features, target)
+            self.save(filename)
