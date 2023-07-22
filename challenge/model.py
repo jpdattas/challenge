@@ -1,13 +1,13 @@
 import pandas as pd
-
 from typing import Tuple, Union, List
+from sklearn.linear_model import LogisticRegression
 
 class DelayModel:
 
     def __init__(
         self
     ):
-        self._model = None # Model should be saved in this attribute.
+        self._model = LogisticRegression(class_weight='balanced') # Model should be saved in this attribute.
 
     def preprocess(
         self,
@@ -26,7 +26,34 @@ class DelayModel:
             or
             pd.DataFrame: features.
         """
-        return
+        features = pd.concat([
+            pd.get_dummies(data['OPERA'], prefix = 'OPERA'),
+            pd.get_dummies(data['TIPOVUELO'], prefix = 'TIPOVUELO'), 
+            pd.get_dummies(data['MES'], prefix = 'MES'),
+            ], 
+            axis = 1
+        )
+
+        top_10_features = [
+            'OPERA_Latin American Wings',
+            'MES_7',
+            'MES_10',
+            'MES_12',
+            'MES_8',
+            'OPERA_JetSmart SPA',
+            'OPERA_Grupo LATAM',
+            'OPERA_Sky Airline',
+            'TIPOVUELO_I',
+            'MES_4'
+            ]
+        
+        features = features[top_10_features]
+        
+        if target_column:
+            target = data[target_column]
+            return features, target
+        else:
+            return features
 
     def fit(
         self,
@@ -40,6 +67,7 @@ class DelayModel:
             features (pd.DataFrame): preprocessed data.
             target (pd.DataFrame): target.
         """
+        self._model.fit(features, target)
         return
 
     def predict(
@@ -55,4 +83,4 @@ class DelayModel:
         Returns:
             (List[int]): predicted targets.
         """
-        return
+        return self._model.predict(features)
