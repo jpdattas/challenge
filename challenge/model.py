@@ -3,6 +3,8 @@ import numpy as np
 from typing import Tuple, Union, List
 from sklearn.linear_model import LogisticRegression
 from datetime import datetime
+from joblib import dump, load
+import os
 
 class DelayModel:
     TOP_10_FEATURES = [
@@ -30,18 +32,25 @@ class DelayModel:
         return min_diff
 
     def preprocess(self, data: pd.DataFrame, target_column: str = None) -> Union[Tuple[pd.DataFrame, pd.DataFrame], pd.DataFrame]:
-        data['min_diff'] = data.apply(self._get_min_diff, axis = 1)
-        data['delay'] = np.where(data['min_diff'] > self.THRESHOLD_IN_MINUTES, 1, 0)
-
         features = pd.concat([
             pd.get_dummies(data['OPERA'], prefix='OPERA'),
             pd.get_dummies(data['TIPOVUELO'], prefix='TIPOVUELO'),
             pd.get_dummies(data['MES'], prefix='MES')
         ], axis=1)
-
+        
+        # I had to add this part to preprocess data for predictions
+        for col in self.TOP_10_FEATURES:
+            if col not in features.columns:
+                features[col] = False
+        
         features = features[self.TOP_10_FEATURES]
         
         if target_column:
+            # Create 'delay' col only if needed
+            # This way you can preprocess data just to predict without having to pass Fecha-O/Fecha-I cols
+            if target_column == 'delay':
+                data['min_diff'] = data.apply(self._get_min_diff, axis = 1)
+                data['delay'] = np.where(data['min_diff'] > self.THRESHOLD_IN_MINUTES, 1, 0)
             target = data[[target_column]]  # Double brackets to keep it as DataFrame
             return features, target
         else:
@@ -53,3 +62,22 @@ class DelayModel:
 
     def predict(self, features: pd.DataFrame) -> List[int]:
         return self._model.predict(features).tolist()
+
+    # Adedd these 2 functions to save and load the fitted model
+
+    def save(self, filename: str):
+        # Save just the model part of the instance, not the whole instance
+        dump(self._model, filename)
+
+    def load_or_fit(self, filename: str):
+        # Check if the file exists
+        if os.path.exists(filename):
+            # If file exists, load the model from the file and save it
+            self._model = load(filename)
+            self.save(filename)
+            
+        else:
+            # If it doesn't exist, train it using the provided data and save it
+            data = pd.read_csv('./data/data.csv')
+            features, target = self.preprocess(data, target_column='delay')
+            self.fit(features, target)
