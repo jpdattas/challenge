@@ -21,8 +21,12 @@ class TestModel(unittest.TestCase):
         )
 
         assert isinstance(features, pd.DataFrame)
-        assert features.columns == [
-            "OPERA_Latin American Wings", 
+
+        # Changed this because of this error:
+        # FAILED tests/model/test_model.py::TestModel::test_model_preprocess_for_serving -
+        # ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+        assert set(features.columns) == set([
+            "OPERA_Latin American Wings",
             "MES_7",
             "MES_10",
             "OPERA_Grupo LATAM",
@@ -32,7 +36,9 @@ class TestModel(unittest.TestCase):
             "MES_11",
             "OPERA_Sky Airline",
             "OPERA_Copa Air"
-        ]
+        ])
+
+        
         assert isinstance(target, pd.DataFrame)
         assert target.columns == [
             "delay"
@@ -46,8 +52,12 @@ class TestModel(unittest.TestCase):
         )
 
         assert isinstance(features, pd.DataFrame)
-        assert features.columns == [
-            "OPERA_Latin American Wings", 
+        
+        # Changed this because of this error:
+        # FAILED tests/model/test_model.py::TestModel::test_model_preprocess_for_serving -
+        # ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+        assert set(features.columns) == set([
+            "OPERA_Latin American Wings",
             "MES_7",
             "MES_10",
             "OPERA_Grupo LATAM",
@@ -57,7 +67,8 @@ class TestModel(unittest.TestCase):
             "MES_11",
             "OPERA_Sky Airline",
             "OPERA_Copa Air"
-        ]
+        ])
+
 
     def test_model_fit(
         self
@@ -88,9 +99,14 @@ class TestModel(unittest.TestCase):
     def test_model_predict(
         self
     ):
-        features = self.model.preprocess(
-            data=self.data
+        # I modify this bit to recover the target giving the target col name
+        features, target = self.model.preprocess(
+            data=self.data,
+            target_column='delay'
         )
+
+        # I add this part because there is the need to fit the model before making predictions
+        self.model.fit(features, target)
 
         predicted_targets = self.model.predict(
             features=features
