@@ -33,7 +33,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: gcr.io/latam-fastapi-challenge/fastapi-challenge:latest
+        tags: gcr.io/latam-fastapi-challenge/fastapi-challenge
     - name: Write GCP SA key to file
       run: echo "${{ secrets.GCP_SA_KEY }}" > service-key.json
     - name: Deploy to GCP
@@ -42,7 +42,7 @@ jobs:
         gcloud auth activate-service-account --key-file service-key.json
         gcloud config set project latam-fastapi-challenge
         # Deploy to GCP
-        gcloud run deploy fastapi-challenge-jpdattas --image gcr.io/latam-fastapi-challenge/fastapi-challenge:latest --region southamerica-west1 --platform managed
+        gcloud run deploy fastapi-challenge-jpdattas --image gcr.io/latam-fastapi-challenge/fastapi-challenge --region southamerica-west1 --platform managed
 
   stress-test:
     needs: build-and-deploy
