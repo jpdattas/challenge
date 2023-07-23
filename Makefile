@@ -43,3 +43,9 @@ api-test:			## Run API tests and coverage
 .PHONY: build
 build:			## Build locally the python artifact
 	python setup.py bdist_wheel
+
+# I will add this command for the test workflow
+.PHONY: test
+test:			## Run all tests and coverage
+	make api-test
+	make model-test
