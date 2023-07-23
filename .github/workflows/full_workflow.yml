@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Write GCP SA key to file
-        run: echo "${{ secrets.GCP_SA_KEY }}" > service-key.json
+        run: echo "${{ secrets.GCP_SA_KEY }}" | tr -d '\r' > service-key.json
       - name: Authenticate with gcloud
         run: |
           gcloud auth activate-service-account --key-file service-key.json
