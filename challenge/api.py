@@ -3,8 +3,6 @@ from typing import List
 from challenge.model import DelayModel
 import pandas as pd
 from pydantic import BaseModel, Field
-import os
-from joblib import load
 from enum import Enum
 
 app = fastapi.FastAPI()
