@@ -28,8 +28,8 @@ STRESS_URL = https://fastapi-challenge-jpdattas-ngjvrz3tyq-tl.a.run.app
 stress-test:
 	# change stress url to your deployed app 
 	mkdir reports || true
-	locust -f tests/stress/api-stress.py --print-stats --html reports/stress-test.html --run-time 60s --headless --users 100 --spawn-rate 1 -H $(STRESS_URL)
-
+	locust -f tests/stress/api_stress.py --print-stats --html reports/stress-test.html --run-time 60s --headless --users 100 --spawn-rate 1 -H $(STRESS_URL)
+	# fixed bug here. Name was mistakenly set
 .PHONY: model-test
 model-test:			## Run model tests and coverage
 	mkdir reports || true
