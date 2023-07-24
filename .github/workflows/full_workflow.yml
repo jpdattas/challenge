@@ -25,16 +25,19 @@ jobs:
     # needs: test
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v3
+    
+      - name: Install JQ
+        run: sudo apt-get install jq
+    
       # Print secret
       - name: Print secret
         run: echo "${{ secrets.GCP_SA_KEY }}"
 
       # Write the secret to the "service-key.json" file
       - name: Write GCP SA key to file
-        run: |
-          echo "${{ secrets.GCP_SA_KEY }}" | tr -d '\r' > service-key.json
-          sed -i -e 's/\\n/\n/g' service-key.json
+        run: echo "${{ secrets.GCLOUD_AUTH }}" | jq '.' > service-key.json
 
       # Print json file
       - name: Print entire JSON file
