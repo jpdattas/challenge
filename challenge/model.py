@@ -26,6 +26,7 @@ class DelayModel:
     def __init__(self):
         self._model = LogisticRegression(class_weight='balanced')
 
+    # This function is used to assist in the creations of delay col
     @staticmethod
     def _get_min_diff(row):
         fecha_o = datetime.strptime(row['Fecha-O'], '%Y-%m-%d %H:%M:%S')
@@ -34,6 +35,8 @@ class DelayModel:
         return min_diff
 
     def preprocess(self, data: pd.DataFrame, target_column: str = None) -> Union[Tuple[pd.DataFrame, pd.DataFrame], pd.DataFrame]:
+        
+        # One-hot encoding for relevant features
         features = pd.concat([
             pd.get_dummies(data['OPERA'], prefix='OPERA'),
             pd.get_dummies(data['TIPOVUELO'], prefix='TIPOVUELO'),
