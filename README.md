@@ -34,9 +34,14 @@ The final phase involved deploying the API using Google Cloud Platform's Cloud R
 
 An interesting challenge was the maintenance of JSON format in GitHub action secrets during authentication. I devised a solution by encoding the JSON file to base64, passing it as a secret, and decoding it during the CI/CD process.
 
-## Conclusion
-Through this challenge, I was able to apply and hone my skills in data analysis, model operationalization, API development, and continuous deployment. The repository presents a complete end-to-end data science project with strong testing protocols at every stage, ensuring the reliability and robustness of the final product. The efficient CI/CD pipeline guarantees the application passes all tests and is always up to date with each push to the main branch.
+## Additional Documentation
 
-To understand the project in depth, please refer to the comments in the Jupyter notebook, `model.py`, `api.py`, and other project files. Each change, bug fix, and decision point is thoroughly documented.
+For a more detailed guide on the project structure, getting started, making predictions, testing, building, and deploying with Docker, refer to the accompanying document [`challenge.md`](./docs/challenge.md). This guide includes specific examples and detailed explanations to help you navigate through the project and potentially adapt it to your needs.
+
+## Conclusion
+
+Through this challenge, I applied and honed my skills in data analysis, model operationalization, API development, and continuous deployment. The repository presents a complete end-to-end data science project, supported by strong testing protocols at every stage, ensuring the reliability and robustness of the final product. The efficient CI/CD pipeline guarantees that the application passes all tests and is always up to date with each push to the main branch.
+
+To understand the project in depth, please refer to the comments in the Jupyter notebook, `model.py`, `api.py`, and other project files. Each change, bug fix, and decision point is thoroughly documented. Additional information and explanations can be found in the [`challenge.md`](./docs/challenge.md) document.
 
 I hope this project serves as an effective demonstration for the Machine Learning Engineer Challenge. Please feel free to reach out if you need further clarification or additional information.
