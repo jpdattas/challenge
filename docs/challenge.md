@@ -112,7 +112,3 @@ Note: This guide contains code blocks tailored for this specific project. When u
 - Ensure the URL configured in the Makefile, workflow, and GitHub action secret matches your deployed service. Adjustments may be necessary if your deployment setup is different.
 
 This guide aims to provide a blueprint that you can adapt to your needs.
-
-
-
-
