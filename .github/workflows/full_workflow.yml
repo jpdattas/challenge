@@ -26,12 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # Echo the first 10 characters of the secret
-      - name: Echo first 10 chars of secret
-        run: echo "${{ secrets.GCP_SA_KEY }}" | cut -c 1-10
-      # Echo the last 10 characters of the secret
-      - name: Echo last 10 chars of secret
-        run: echo "${{ secrets.GCP_SA_KEY }}" | rev | cut -c 1-10 | rev
+      # Print secret
+      - name: Print secret
+        run: cat "${{ secrets.GCP_SA_KEY }}"
 
       # Write the secret to the "service-key.json" file
       - name: Write GCP SA key to file
@@ -39,13 +36,9 @@ jobs:
           echo "${{ secrets.GCP_SA_KEY }}" | tr -d '\r' > service-key.json
           sed -i -e 's/\\n/\n/g' service-key.json
 
-      # Echo the first 10 characters of the file
-      - name: Echo first 10 chars of file
-        run: head -c 10 service-key.json
-
-      # Echo the last 10 characters of the file
-      - name: Echo last 10 chars of file
-        run: tail -c 10 service-key.json
+      # Print json file
+      - name: Print entire JSON file
+        run: cat service-key.json
 
 
       # Do the rest
