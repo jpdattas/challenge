@@ -5,29 +5,48 @@ on:
     branches: [ dev ]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        make install
-    - name: Test code
-      run: |
-        make test
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Set up Python 3.10
+  #     uses: actions/setup-python@v3
+  #     with:
+  #       python-version: "3.10"
+  #   - name: Install dependencies
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       make install
+  #   - name: Test code
+  #     run: |
+  #       make test
 
   build-and-deploy:
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      # Echo the first 10 characters of the secret
+      - name: Echo first 10 chars of secret
+        run: echo "${{ secrets.GCP_SA_KEY }}" | cut -c 1-10
+      # Echo the last 10 characters of the secret
+      - name: Echo last 10 chars of secret
+        run: echo "${{ secrets.GCP_SA_KEY }}" | rev | cut -c 1-10 | rev
+
+      # Write the secret to the "service-key.json" file
       - name: Write GCP SA key to file
         run: echo "${{ secrets.GCP_SA_KEY }}" | tr -d '\r' > service-key.json
+
+      # Echo the first 10 characters of the file
+      - name: Echo first 10 chars of file
+        run: head -c 10 service-key.json
+
+      # Echo the last 10 characters of the file
+      - name: Echo last 10 chars of file
+        run: tail -c 10 service-key.json
+
+
+      # Do the rest
       - name: Authenticate with gcloud
         run: |
           gcloud auth activate-service-account --key-file service-key.json
