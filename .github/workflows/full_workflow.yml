@@ -35,9 +35,11 @@ jobs:
       - name: Print secret
         run: echo "${{ secrets.GCP_SA_KEY }}"
 
-      # Write the secret to the "service-key.json" file
+      # Write the secret to the "service-key.json" file using Python and regex
       - name: Write GCP SA key to file
-        run: echo -n "${{ secrets.GCP_SA_KEY }}" | jq '.' > service-key.json
+        run: |
+          python -c 'import re; import os; data = os.environ["GCP_SA_KEY"]; data = re.sub(r"(\w+):", r'"\1":', data); with open("service-key.json", "w") as f: f.write(data)'
+
 
       # Print json file
       - name: Print entire JSON file
