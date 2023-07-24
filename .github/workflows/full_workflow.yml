@@ -38,7 +38,7 @@ jobs:
       # Write the secret to the "service-key.json" file using Python and regex
       - name: Write GCP SA key to file
         run: |
-          python -c "import re; import os; data = os.environ['GCP_SA_KEY']; data = re.sub(r'(\w+):', r'\"\\1\":', data); with open('service-key.json', 'w') as f: f.write(data)"
+          python -c "import re; import os; data = os.environ['GCP_SA_KEY']; data = re.sub(r'(\w+):', '\"\\1\":', data); with open('service-key.json', 'w') as f: f.write(data)"
 
 
       # Print json file
