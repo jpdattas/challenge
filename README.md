@@ -35,7 +35,7 @@ The final phase involved deploying the API using Google Cloud Platform's Cloud R
 An interesting challenge was the maintenance of JSON format in GitHub action secrets during authentication. I devised a solution by encoding the JSON file to base64, passing it as a secret, and decoding it during the CI/CD process.
 
 ## Conclusion
-Through this challenge, I was able to apply and hone my skills in data analysis, model operationalization, API development, and continuous deployment. The repository presents a complete end-to-end data science project with strong testing protocols at every stage, ensuring the reliability and robustness of the final product. The efficient CI/CD pipeline guarantees the application is always up to date with each push to the main branch.
+Through this challenge, I was able to apply and hone my skills in data analysis, model operationalization, API development, and continuous deployment. The repository presents a complete end-to-end data science project with strong testing protocols at every stage, ensuring the reliability and robustness of the final product. The efficient CI/CD pipeline guarantees the application passes all tests and is always up to date with each push to the main branch.
 
 To understand the project in depth, please refer to the comments in the Jupyter notebook, `model.py`, `api.py`, and other project files. Each change, bug fix, and decision point is thoroughly documented.
 
