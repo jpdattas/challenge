@@ -37,7 +37,7 @@ jobs:
 
       # Write the secret to the "service-key.json" file
       - name: Write GCP SA key to file
-        run: echo "${{ secrets.GCLOUD_AUTH }}" | jq '.' > service-key.json
+        run: echo "${{ secrets.GCP_SA_KEY }}" | jq '.' > service-key.json
 
       # Print json file
       - name: Print entire JSON file
