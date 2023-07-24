@@ -35,13 +35,9 @@ jobs:
       - name: Print secret
         run: echo "${{ secrets.GCP_SA_KEY }}"
 
-      # Write the secret to the "service-key.json" file using Python and regex
+      # Write the secret to the "service-key.json" file
       - name: Write GCP SA key to file
-        env:
-          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-        run: |
-          python -c "import re; import os; data = os.getenv('GCP_SA_KEY'); data = re.sub(r'(\b\w+\b)(\s*:\s*)', r'\"\\1\"\\2', data); with open('service-key.json', 'w') as f: f.write(data)"
-
+        run: echo "${{ secrets.GCP_SA_KEY }}" | base64 -d > service-key.json
 
       # Print json file
       - name: Print entire JSON file
